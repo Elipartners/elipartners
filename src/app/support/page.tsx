@@ -10,12 +10,18 @@ export const metadata = {
 };
 
 async function NoticeList() {
-    const notices = await prisma.notice.findMany({
-        orderBy: { createdAt: 'desc' },
-        take: 5
-    });
+    let notices: any[] = [];
+    try {
+        notices = await prisma.notice.findMany({
+            orderBy: { createdAt: 'desc' },
+            take: 5
+        });
+    } catch (error) {
+        console.error("Failed to fetch notices:", error);
+        // Fallback or empty state if DB connection fails
+    }
 
-    if (notices.length === 0) {
+    if (!notices || notices.length === 0) {
         return (
             <div className="py-12 text-center text-gray-500 bg-gray-50 rounded-lg border border-gray-100">
                 등록된 공지사항이 없습니다.

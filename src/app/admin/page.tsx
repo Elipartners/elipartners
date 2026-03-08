@@ -26,8 +26,16 @@ export default async function AdminPage() {
     }
 
     // Fetch data for the dashboard
-    const notices = await prisma.notice.findMany({ orderBy: { createdAt: 'desc' } });
-    const inquiries = await prisma.inquiry.findMany({ orderBy: { createdAt: 'desc' } });
+    let notices: any[] = [];
+    let inquiries: any[] = [];
+
+    try {
+        notices = await prisma.notice.findMany({ orderBy: { createdAt: 'desc' } });
+        inquiries = await prisma.inquiry.findMany({ orderBy: { createdAt: 'desc' } });
+    } catch (error) {
+        console.error("Failed to fetch admin data:", error);
+        // Silently fail to render empty dashboard instead of 500 error
+    }
 
     return (
         <div className="flex-1 w-full bg-gray-50 pb-20">
