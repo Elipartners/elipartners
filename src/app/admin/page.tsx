@@ -25,13 +25,12 @@ export default async function AdminPage() {
         );
     }
 
-    // Fetch data for the dashboard
     let notices: any[] = [];
-    let inquiries: any[] = [];
+    let popups: any[] = [];
 
     try {
         notices = await prisma.notice.findMany({ orderBy: { createdAt: 'desc' } });
-        inquiries = await prisma.inquiry.findMany({ orderBy: { createdAt: 'desc' } });
+        popups = await prisma.popup.findMany({ orderBy: { createdAt: 'desc' } });
     } catch (error) {
         console.error("Failed to fetch admin data:", error);
         // Silently fail to render empty dashboard instead of 500 error
@@ -42,7 +41,7 @@ export default async function AdminPage() {
             <div className="bg-brand-blue py-10 text-white text-center">
                 <h1 className="text-3xl font-bold">인트라넷 관리자 시스템</h1>
             </div>
-            <AdminDashboard initialNotices={notices} initialInquiries={inquiries} />
+            <AdminDashboard initialNotices={notices} initialPopups={popups} />
         </div>
     );
 }

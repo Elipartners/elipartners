@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import NetworkCanvas from "../components/home/NetworkCanvas";
 import CityCanvas from "../components/home/CityCanvas";
 import ConsultingCanvas from "../components/home/ConsultingCanvas";
+import HomePopups from "../components/home/HomePopups";
 
 const slides = [
   {
@@ -43,6 +44,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full min-h-screen">
+      <HomePopups />
       {/* Hero Slider Section */}
       <section className="relative w-full h-[600px] md:h-[800px] overflow-hidden">
         {slides.map((slide: any, index: number) => (

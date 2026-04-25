@@ -1,6 +1,6 @@
 import prisma from '../../lib/prisma';
-import InquiryForm from '../../components/support/InquiryForm';
 import { Suspense } from 'react';
+import NoticeTable from '../../components/support/NoticeTable';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,26 +29,7 @@ async function NoticeList() {
         );
     }
 
-    return (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <ul>
-                {notices.map((notice, index) => (
-                    <li key={notice.id} className={`${index !== notices.length - 1 ? 'border-b border-gray-100' : ''}`}>
-                        <div className="px-6 py-4 hover:bg-gray-50 transition-colors cursor-pointer group">
-                            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-                                <h3 className="text-lg font-medium text-gray-800 group-hover:text-brand-teal truncate pr-4 transition-colors">
-                                    {notice.title}
-                                </h3>
-                                <span className="text-sm text-gray-400 whitespace-nowrap">
-                                    {new Date(notice.createdAt).toLocaleDateString()}
-                                </span>
-                            </div>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+    return <NoticeTable notices={notices} />;
 }
 
 export default function SupportPage() {
@@ -90,31 +71,36 @@ export default function SupportPage() {
                     </div>
                 </section>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div className="w-full">
                     {/* Notice Section */}
                     <section id="notice" className="scroll-mt-24">
-                        <div className="flex justify-between items-end mb-6">
+                        <div className="flex justify-between items-center mb-6">
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-2">공지사항</h2>
                                 <p className="text-gray-500 text-sm">엘리파트너스의 최신 소식과 안내입니다.</p>
                             </div>
+                            
+                            {/* Kakao Channel Chat Button */}
+                            <a
+                                href="https://pf.kakao.com/_xoxaLCX"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center bg-[#FEE500] hover:bg-[#FDD800] text-black px-6 py-3 rounded-full font-bold text-sm md:text-base transition-colors shadow-sm"
+                            >
+                                <svg
+                                    className="w-5 h-5 mr-2"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path d="M12 3c-5.5 0-10 3.5-10 7.8 0 2.8 1.8 5.2 4.6 6.5l-1.1 4.1c-.1.3.1.6.4.5l4.8-3.2c.4.1.9.1 1.3.1 5.5 0 10-3.5 10-7.8s-4.5-7.8-10-7.8z" />
+                                </svg>
+                                카톡으로 문의하기
+                            </a>
                         </div>
 
                         <Suspense fallback={<div className="h-64 flex items-center justify-center bg-gray-50 rounded-xl animate-pulse text-gray-400">명단 불러오는 중...</div>}>
                             <NoticeList />
                         </Suspense>
-                    </section>
-
-                    {/* 1:1 Inquiry Section */}
-                    <section id="inquiry" className="scroll-mt-24">
-                        <div className="mb-6">
-                            <h2 className="text-2xl font-bold text-gray-900 mb-2">1:1 문의</h2>
-                            <p className="text-gray-500 text-sm">궁금하신 점을 남겨주시면 담당자가 파악 후 안내 드립니다.</p>
-                        </div>
-
-                        <div className="bg-white p-8 rounded-xl shadow border border-gray-100">
-                            <InquiryForm />
-                        </div>
                     </section>
                 </div>
 
