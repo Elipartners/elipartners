@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import prisma from '../../../../../lib/prisma';
 
-export async function PUT(request: Request, context: { params: { id: string } }) {
+export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
     try {
-        const id = parseInt(context.params.id);
+        const { id: paramId } = await context.params;
+        const id = parseInt(paramId);
         if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
 
         const body = await request.json();
@@ -25,9 +26,10 @@ export async function PUT(request: Request, context: { params: { id: string } })
     }
 }
 
-export async function DELETE(request: Request, context: { params: { id: string } }) {
+export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
     try {
-        const id = parseInt(context.params.id);
+        const { id: paramId } = await context.params;
+        const id = parseInt(paramId);
         if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
 
         await prisma.popup.delete({ where: { id } });
